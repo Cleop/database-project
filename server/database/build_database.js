@@ -9,7 +9,7 @@ const sql = fs.readFileSync(`${__dirname}/build_database.sql`).toString();
 
 conn.query(sql, (error, result) => {
   if(error) {
-    console.log('Error', error);
+    console.log('Error receiving build_database.sql', error);
   } else {
     console.log('Result', result);
   }
