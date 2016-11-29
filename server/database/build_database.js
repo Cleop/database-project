@@ -3,11 +3,11 @@ const fs = require('fs');
 
 // env('.env');
 
-const conn = require('./db_connection');
+const dbConn = require('./db_connection');
 
 const sql = fs.readFileSync(`${__dirname}/build_database.sql`).toString();
 
-conn.query(sql, (error, result) => {
+dbConn.query(sql, (error, result) => {
   if(error) {
     console.log('Error receiving build_database.sql', error);
   } else {
