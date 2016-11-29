@@ -36,8 +36,5 @@ module.exports = [
 ];
 
 function buildReviewDescription(reviews){
-  let latest = reviews.slice(-3);
-  return latest.filter(function(a){
-    
-  });
+  return reviews.slice(-3);
 };
