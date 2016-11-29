@@ -1,0 +1,24 @@
+{
+  "name": "database-project",
+  "version": "1.0.0",
+  "description": "## Objective",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-la-node/database-project.git"
+  },
+  "author": "Tom Cleo Peter Ewelina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a-la-node/database-project/issues"
+  },
+  "homepage": "https://github.com/a-la-node/database-project#readme",
+  "dependencies": {
+    "env2": "^2.1.1",
+    "hapi": "^15.2.0",
+    "pg": "^6.1.0"
+  }
+}
