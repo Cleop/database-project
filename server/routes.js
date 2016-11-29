@@ -30,7 +30,7 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      reply('Hi Ewelina!!');
+      reply.view('index');
     }
   }
 ];
