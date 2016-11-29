@@ -28,9 +28,16 @@ module.exports = [
     handler: (req, reply) => {
       getReviews((error, reviews) => {
         if (error) console.log('error with getReviews endpoint', error);
-        console.log(reviews);
+        console.log(buildReviewDescription(reviews));
         reply.view('index', reviews);
       });
     },
   },
 ];
+
+function buildReviewDescription(reviews){
+  let latest = reviews.slice(-3);
+  return latest.filter(function(a){
+    
+  });
+};
