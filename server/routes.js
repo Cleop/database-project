@@ -1,3 +1,5 @@
+const login = require('./database/queries/login');
+
 module.exports = [
   {
     method: 'GET',
@@ -9,8 +11,19 @@ module.exports = [
   {
     method: 'POST',
     path: '/login',
-    handler: (req, reply) => {
-
+    config: {
+      handler: (req, reply) => {
+        login([req.payload.email, req.payload.password], (error, result) => {
+          if (error) {
+            return reply(error).statusCode(400);
+          }
+          if (result.length === 0) {
+            return reply('User not found.');
+          }
+          req.cookieAuth.set(result[0]);
+          reply('Logged in!');
+        });
+      }
     }
   },
   {
