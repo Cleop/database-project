@@ -29,8 +29,10 @@ server.register([inert, vision, cookieAuth], err => {
     engines: {
       html: require('handlebars')
     },
-    relativeTo: __dirname,
-    path: path.join('..', 'public', 'views')
+    relativeTo: path.join(__dirname, '..', 'public'),
+    layoutPath: 'layout',
+    layout: 'default',
+    path: 'views'
   });
 
   server.route(routes);
