@@ -1,4 +1,4 @@
-const dbConn = require('server/database/db_connection');
+const dbConn = require('./server/database/db_connection');
 
 // Endpoint = reviews/recent on our landing page
 
