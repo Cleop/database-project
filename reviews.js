@@ -1,6 +1,4 @@
-const dbConn = require('server/database/db_connection');
-
-// Endpoint = reviews/recent on our landing page
+const dbConn = require('./server/database/db_connection');
 
 module.exports = cb =>
   dbConn.query('SELECT * FROM REVIEWS;', (error, data) =>

@@ -1,5 +1,7 @@
 const login = require('./database/queries/login');
 
+const getReviews = require('../reviews');
+
 module.exports = [
   {
     method: 'GET',
@@ -32,5 +34,20 @@ module.exports = [
     handler: (req, reply) => {
       reply.view('index');
     }
-  }
+  },
+  {
+    method: 'GET',
+    path: '/reviews/recent',
+    handler: (req, reply) => {
+      getReviews((error, reviews) => {
+        if (error) console.log('error with getReviews endpoint', error);
+        console.log(buildReviewDescription(reviews));
+        reply.view('index', reviews);
+      });
+    },
+  },
 ];
+
+function buildReviewDescription(reviews){
+  return reviews.slice(-3);
+};
