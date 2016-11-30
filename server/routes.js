@@ -72,12 +72,14 @@ module.exports = [
     path: '/reviews',
     config: {
       auth: {
-        mode: 'try',
+        mode: 'optional',
         strategy: 'base'
       },
       handler: (req, reply) => {
         if (req.auth.isAuthenticated) {
           reply.view('user_reviews', {user_id: req.auth.credentials.user_id});
+        } else {
+          reply.view('user_reviews',{user_id: 'You must be login to see the content'});
         }
       }
     }
