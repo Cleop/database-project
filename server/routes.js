@@ -23,7 +23,7 @@ module.exports = [
             return reply('User not found.');
           }
           req.cookieAuth.set(result[0]);
-          reply('Logged in!');
+          reply.view('user_reviews', result[0]);
         });
       }
     }
