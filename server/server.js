@@ -34,7 +34,8 @@ server.register([inert, vision, cookieAuth], err => {
     helpersPath: 'helpers',
     partialsPath: 'partials',
     layout: 'default',
-    path: 'views'
+    path: 'views',
+    isCached: false
   });
 
   server.route(routes);
