@@ -54,8 +54,13 @@ module.exports = [
       var params = req.query;
       console.log(params);
       console.log(user_id);
-      reply.view('user_reviews',
-    {user_id:user_id});
+      getReviews((error, reviews) => {
+        if (error) console.log('error with getReviews endpoint', error);
+        // reviews = filterByUser(reviews)
+        reply.view('user_reviews',
+        {user_id:user_id,
+        reviews:reviews});
+      });
     }
   },
   {
@@ -71,3 +76,7 @@ module.exports = [
 function buildReviewDescription(reviews){
   return reviews.slice(-3);
 };
+
+// function filterByUser(reviews){
+//   return reviews.filter(function(review){})
+// }
