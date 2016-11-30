@@ -1,7 +1,6 @@
 const login = require('./database/queries/login');
-
 const getReviews = require('../reviews');
-
+let user_id;
 module.exports = [
   {
     method: 'GET',
@@ -23,6 +22,8 @@ module.exports = [
             return reply('User not found.');
           }
           req.cookieAuth.set(result[0]);
+          user_id = result[0].user_id;
+          console.log(user_id);
           reply.view('user_reviews', result[0]);
         });
       }
@@ -32,7 +33,7 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      reply.view('index');
+      reply.view('index', {user_id:user_id});
     }
   },
   {
@@ -48,13 +49,14 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/reviews{user_id}',
+    path: '/reviews',
     handler: (req, reply) => {
-      getReviews((error, reviews) => {
-        if (error) console.log('error with User profile endpoint', error);
-        reply.view('user_reviews');
-      });
-    },
+      var params = req.query;
+      console.log(params);
+      console.log(user_id);
+      reply.view('user_reviews',
+    {user_id:user_id});
+    }
   },
   {
     method:'GET',
@@ -66,7 +68,6 @@ module.exports = [
     }
   }
 ];
-
 function buildReviewDescription(reviews){
   return reviews.slice(-3);
 };
