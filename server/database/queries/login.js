@@ -9,4 +9,4 @@ module.exports = (values, cb) => {
                    if (error) return cb(error);
                    return cb(null, result.rows);
                  });
-}
+};
