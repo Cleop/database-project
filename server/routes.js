@@ -1,5 +1,7 @@
 const login = require('./database/queries/login');
 const getReviews = require('../reviews');
+const getUserReviews = require('../user_reviews')
+
 let user_id;
 module.exports = [
   {
@@ -54,12 +56,11 @@ module.exports = [
       var params = req.query;
       console.log(params);
       console.log(user_id);
-      getReviews((error, reviews) => {
+      getUserReviews((error, userReviews) => {
         if (error) console.log('error with getReviews endpoint', error);
-        // reviews = filterByUser(reviews)
+        userReviews = filterByUser(userReviews)
         reply.view('user_reviews',
-        {user_id:user_id,
-        reviews:reviews});
+        {reviews:userReviews});
       });
     }
   },
@@ -77,6 +78,6 @@ function buildReviewDescription(reviews){
   return reviews.slice(-3);
 };
 
-// function filterByUser(reviews){
-//   return reviews.filter(function(review){})
-// }
+function filterByUser(reviews){
+  return reviews.filter(function(review){if (review.user_id === user_id){return review}})
+}
