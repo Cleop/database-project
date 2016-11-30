@@ -27,10 +27,11 @@ server.register([inert, vision, cookieAuth], err => {
 
   server.views({
     engines: {
-      html: require('handlebars')
+      hbs: require('handlebars')
     },
     relativeTo: path.join(__dirname, '..', 'public'),
     layoutPath: 'layout',
+    helpersPath: 'helpers',
     layout: 'default',
     path: 'views'
   });

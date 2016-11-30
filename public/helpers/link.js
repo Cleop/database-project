@@ -1,3 +1,4 @@
-module.exports = function(review){
-  return `<a href=reviews/${review_id}><li>${review.title}</li></a>`;
+module.exports = function(reviews){
+  console.log(reviews.title);
+  return `<a href=reviews/${reviews.review_id}><li>${reviews.title} ${reviews.rating}/5</li></a>`;
 };
