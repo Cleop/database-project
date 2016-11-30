@@ -24,7 +24,7 @@ module.exports = [
           req.cookieAuth.set(result[0]);
           user_id = result[0].user_id;
           console.log(user_id);
-          reply('Logged in!');
+          reply.view('user_reviews', result[0]);
         });
       }
     }
