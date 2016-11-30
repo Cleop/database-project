@@ -1,6 +1,5 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
-
 const getReviews = require('../reviews');
 
 module.exports = [
@@ -24,7 +23,7 @@ module.exports = [
             return reply('User not found.');
           }
           req.cookieAuth.set(result[0]);
-          reply.redirect('user_reviews?user_id=' + result[0].user_id);
+          reply.redirect('reviews?user_id=' + result[0].user_id);
         });
       }
     }
@@ -70,13 +69,10 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/reviews{user_id}',
+    path: '/reviews',
     handler: (req, reply) => {
-      getReviews((error, reviews) => {
-        if (error) console.log('error with User profile endpoint', error);
-        reply.view('user_reviews');
-      });
-    },
+      reply.view('user_reviews', {user_id: req.query.user_id});
+    }
   },
   {
     method:'GET',
@@ -91,4 +87,4 @@ module.exports = [
 
 function buildReviewDescription(reviews){
   return reviews.slice(-3);
-};
+}
