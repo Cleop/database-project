@@ -23,7 +23,7 @@ module.exports = [
             return reply('User not found.');
           }
           req.cookieAuth.set(result[0]);
-          reply.redirect('reviews?user_id=' + result[0].user_id);
+          reply.redirect('reviews');
         });
       }
     }
@@ -70,8 +70,16 @@ module.exports = [
   {
     method: 'GET',
     path: '/reviews',
-    handler: (req, reply) => {
-      reply.view('user_reviews', {user_id: req.query.user_id});
+    config: {
+      auth: {
+        mode: 'try',
+        strategy: 'base'
+      },
+      handler: (req, reply) => {
+        if (req.auth.isAuthenticated) {
+          reply.view('user_reviews', {user_id: req.auth.credentials.user_id});
+        }
+      }
     }
   },
   {

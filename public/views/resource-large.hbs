@@ -7,3 +7,13 @@
   <p>{{this.title}}</p>
   <p>Review id: {{this.reviewID}} </p>
 {{/each}}
+
+<p>Comments</p>
+{{#each this.json_agg}}
+<div class="comment">
+  <h4>{{this.title}}</h4>
+  <p>Rating: {{this.rating}}</p>
+  <p>{{this.content}}</p>
+  <p>Author: {{this.email}}</p>
+</div>
+{{/each}}

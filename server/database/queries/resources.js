@@ -7,13 +7,15 @@ getAll = cb => {
         'content', reviews.content,\
         'reviewID', reviews.review_id,\
         'rating', reviews.rating,\
-        'title', reviews.title\
+        'title', reviews.title,\
+        'email', users.email\
       ))\
     FROM resources AS res\
     LEFT JOIN user_reviews\
     ON res.resource_id=user_reviews.resource_id\
     LEFT JOIN reviews\
     ON reviews.review_id=user_reviews.review_id\
+    LEFT JOIN users ON users.user_id=user_reviews.user_id\
     GROUP BY res.resource_id, res.title, res.url, res.img, res.intro;",
     (error, result) => {
       if (error) return cb(error);
@@ -28,13 +30,15 @@ getById = (id, cb) => {
         'content', reviews.content,\
         'reviewID', reviews.review_id,\
         'rating', reviews.rating,\
-        'title', reviews.title\
+        'title', reviews.title,\
+        'email', users.email\
       ))\
     FROM resources AS res\
     LEFT JOIN user_reviews\
     ON res.resource_id=user_reviews.resource_id\
     LEFT JOIN reviews\
     ON reviews.review_id=user_reviews.review_id\
+    LEFT JOIN users ON users.user_id=user_reviews.user_id\
     WHERE res.resource_id = $1\
     GROUP BY res.resource_id, res.title, res.url, res.img, res.intro;",
     [id], (error, result) => {
