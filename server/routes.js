@@ -41,13 +41,23 @@ module.exports = [
     handler: (req, reply) => {
       getReviews((error, reviews) => {
         if (error) console.log('error with getReviews endpoint', error);
-        console.log(buildReviewDescription(reviews));
-        reply.view('index', reviews);
+        reviews = buildReviewDescription(reviews);
+        reply.view('index', {reviews:reviews});
       });
     },
   },
   {
     method: 'GET',
+    path: '/reviews{user_id}',
+    handler: (req, reply) => {
+      getReviews((error, reviews) => {
+        if (error) console.log('error with User profile endpoint', error);
+        reply.view('user_reviews');
+      });
+    },
+  },
+  {
+    method:'GET',
     path: '/{file*}',
     handler: {
       directory: {
