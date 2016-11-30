@@ -46,6 +46,16 @@ module.exports = [
       });
     },
   },
+  {
+    method: 'GET',
+    path: '/reviews?{user_id}',
+    handler: (req, reply) => {
+      getReviews((error, reviews) => {
+        if (error) console.log('error with User profile endpoint', error);
+        reply.view('user_reviews');
+      });
+    },
+  }
 ];
 
 function buildReviewDescription(reviews){
