@@ -46,6 +46,15 @@ module.exports = [
       });
     },
   },
+  {
+    method: 'GET',
+    path: '/{file*}',
+    handler: {
+      directory: {
+        path: '../public'
+      }
+    }
+  }
 ];
 
 function buildReviewDescription(reviews){
