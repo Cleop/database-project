@@ -1,5 +1,10 @@
 <section>
   <h1>Coding resources</h1>
+  <ul>
+    {{#each resources}}
+    {{> resource-small this}}
+    {{/each}}
+  </ul>
 </section>
 
 <aside>

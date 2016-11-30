@@ -32,6 +32,7 @@ server.register([inert, vision, cookieAuth], err => {
     relativeTo: path.join(__dirname, '..', 'public'),
     layoutPath: 'layout',
     helpersPath: 'helpers',
+    partialsPath: 'partials',
     layout: 'default',
     path: 'views'
   });

@@ -1,6 +1,7 @@
 const login = require('./database/queries/login');
+const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
-let user_id;
+
 module.exports = [
   {
     method: 'GET',
@@ -22,9 +23,7 @@ module.exports = [
             return reply('User not found.');
           }
           req.cookieAuth.set(result[0]);
-          user_id = result[0].user_id;
-          console.log(user_id);
-          reply.view('user_reviews', result[0]);
+          reply.redirect('reviews?user_id=' + result[0].user_id);
         });
       }
     }
@@ -33,7 +32,28 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      reply.view('index', {user_id:user_id});
+      resources.getAll((error, result) => {
+        if(error) return reply(error).statusCode(400);
+        if(result.length === 0) {
+          return reply('No resources found');
+        }
+        reply.view('index', {
+          resources: result
+        });
+      });
+    }
+  },
+  {
+    method: 'GET',
+    path: '/resources/{id}',
+    handler: (req, reply) => {
+      resources.getById(req.params.id, (error, result) => {
+        if(error) return reply(error).statusCode(400);
+        if(result.length === 0) {
+          return reply('No resources found');
+        }
+        reply.view('resource-large', result[0]);
+      });
     }
   },
   {
@@ -51,11 +71,7 @@ module.exports = [
     method: 'GET',
     path: '/reviews',
     handler: (req, reply) => {
-      var params = req.query;
-      console.log(params);
-      console.log(user_id);
-      reply.view('user_reviews',
-    {user_id:user_id});
+      reply.view('user_reviews', {user_id: req.query.user_id});
     }
   },
   {
@@ -68,6 +84,7 @@ module.exports = [
     }
   }
 ];
+
 function buildReviewDescription(reviews){
   return reviews.slice(-3);
-};
+}
