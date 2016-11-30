@@ -1,6 +1,7 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
+const getUserReviews = require('../user_reviews')
 
 module.exports = [
   {
@@ -76,11 +77,18 @@ module.exports = [
         strategy: 'base'
       },
       handler: (req, reply) => {
-        if (req.auth.isAuthenticated) {
-          reply.view('user_reviews', {user_id: req.auth.credentials.user_id});
-        } else {
-          reply.view('user_reviews',{user_id: 'You must be login to see the content'});
-        }
+          console.log("hello")
+        getUserReviews((error, userReviews) => {
+          console.log(userReviews)
+          if (error) console.log('error with getReviews endpoint', error);
+          if (req.auth.isAuthenticated) {
+            userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
+            console.log(userReviews)
+            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, reviews:userReviews});
+          } else {
+            reply.view('user_reviews',{user_id: 'You must be login to see the content'});
+          }
+        });
       }
     }
   },
@@ -97,4 +105,8 @@ module.exports = [
 
 function buildReviewDescription(reviews){
   return reviews.slice(-3);
+}
+
+function filterByUser(reviews, user_id){
+  return reviews.filter(function(review){if (review.user_id === user_id){return review}})
 }
