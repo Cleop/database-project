@@ -5,7 +5,9 @@ module.exports = (data, cb) => {
                  VALUES ($1, $2, $3);',
                  data,
                  (error, result) => {
-                   if (error) return cb(error);
+                   if (error) return cb(error, "Error submitting new review data to sql");
+                   console.log(result.rows);
+                   console.log(data);
                    return cb(null, result.rows);
                  });
 };

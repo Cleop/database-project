@@ -1,7 +1,8 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
-const getUserReviews = require('../user_reviews')
+const getUserReviews = require('../user_reviews');
+const createNewReview = require('./database/queries/insert_new_review');
 
 module.exports = [
   {
@@ -86,6 +87,19 @@ module.exports = [
             reply.view('user_reviews',{user_id: 'You must be login to see the content'});
           }
         });
+      }
+    }
+  },
+  {
+    method:'POST',
+    path: '/reviews',
+    config: {
+      handler: (req, reply) => {
+        createNewReview((error,reviewContent) => {
+          if (error) console.log("Error submitting user's new review content", error);
+        })
+        return reviewContent;
+        reply.view('user_reviews',{user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews})
       }
     }
   },
