@@ -1,14 +1,31 @@
+.header {
+  width: 100%;
+  position: relative;
+  margin-bottom: 50px;
+  padding: 20px;
+  border-bottom: 1px solid grey;
+}
+
+.heading {
+  font-family: 'Tangerine', cursive;
+  margin-left: 10%;
+}
+
+.navbar {
+  position: absolute;
+  top: 26px;
+  right: 10%;
+}
 .navbar-navigation {
-  text-align: right;
+  font-size: 20px;
 }
 
 .navbar-link {
   display: inline-block;
   list-style-type: none;
+  margin-left: 10px;
 }
-.navbar-link a {
-  text-decoration: none;
-}
+
 .container {
   max-width: 900px;
   width: 100%;
@@ -35,4 +52,14 @@
 
 .resource-small--image {
   max-width: 50px;
+}
+
+.style-a {
+  text-decoration: none;
+  color: inherit;
+  opacity: 1;
+}
+
+.style-a:hover {
+  opacity: 0.5;
 }
