@@ -30,6 +30,21 @@ html, body {
   margin-left: 10px;
 }
 
+.content_input{
+  width: 600px;
+  height: 300px;
+  vertical-align: text-top;
+  display: block;
+}
+
+.title {
+  display: block;
+}
+
+.rating {
+  display: block;
+}
+
 .container {
   max-width: 900px;
   width: 100%;
