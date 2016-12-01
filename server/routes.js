@@ -32,6 +32,14 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: '/logout',
+    handler: (req, reply) => {
+      req.cookieAuth.clear();
+      return reply.redirect('/');
+    }
+  },
+  {
+    method: 'GET',
     path: '/',
     handler: (req, reply) => {
       resources.getAll((error, resourcesRows) => {
@@ -66,8 +74,8 @@ module.exports = [
         }
         reply.view('index', {
           resources: rows,
-           isFiltered: true
-         });
+          isFiltered: true
+        });
       });
     }
   },
@@ -88,22 +96,16 @@ module.exports = [
   {
     method: 'GET',
     path: '/reviews',
-    config: {
-      auth: {
-        mode: 'optional',
-        strategy: 'base'
-      },
-      handler: (req, reply) => {
-        getUserReviews((error, userReviews) => {
-          if (error) console.log('error with getReviews endpoint', error);
-          if (req.auth.isAuthenticated) {
-            userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
-          } else {
-            reply.view('user_reviews', {user_id: 'You must be login to see the content'});
-          }
-        });
-      }
+    handler: (req, reply) => {
+      getUserReviews((error, userReviews) => {
+        if (error) console.log('error with getReviews endpoint', error);
+        if (req.auth.isAuthenticated) {
+          userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
+          reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
+        } else {
+          reply.view('user_reviews', {user_id: 'You must be login to see the content'});
+        }
+      });
     }
   },
   {
@@ -118,7 +120,6 @@ module.exports = [
             reply.view('user_reviews')
           })
         })
-        console.log(req.payload);
       }
     }
   },
@@ -145,5 +146,5 @@ function buildReviewDescription(reviews){
 }
 
 function filterByUser(reviews, user_id){
-  return reviews.filter(function(review){return review.user_id === user_id})
+  return reviews.filter(function(review) {return review.user_id === user_id;});
 }

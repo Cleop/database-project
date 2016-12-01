@@ -1,8 +1,12 @@
-.navbar-navigation--link {
+.navbar-navigation {
+  text-align: right;
+}
+
+.navbar-link {
   display: inline-block;
   list-style-type: none;
 }
-.navbar-navigation--link a {
+.navbar-link a {
   text-decoration: none;
 }
 .container {
