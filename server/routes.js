@@ -91,6 +91,13 @@ module.exports = [
   },
   {
     method:'GET',
+    path: '/reviews/create',
+    handler: (req, reply) => {
+      reply.view('new-review-template')
+    }
+  },
+  {
+    method:'GET',
     path: '/{file*}',
     handler: {
       directory: {
