@@ -30,35 +30,45 @@ Focus on getting this functionality rather than making the frontend look good. B
 
 Table 1: Users
 
-user_id 1 PRIMARY KEY read only
-
-first_name Jo string
-last_name Bloggs string
-email jbloggs@me.com string
-password h3Llo string
+|name            |value          |   type     |
+|----------------|---------------|------------|
+| **user_id**    |1              |PRIMARY KEY |   
+| **first_name** |Jo             |string      |
+| **last_name**  |Bloggs         |string      |   
+| **email**      |jbloggs@me.com |string      |   
+| **password**   |h3Llo          |string      |   
 
 Table 2: Resources
 
-resource_id PRIMARY KEY
-url string
-title string
-img string
-intro string varchar(100)
+|name            |  type             |
+|----------------|-------------------|
+|**resource_id** |PRIMARY KEY        |   
+|**url**         |string             |
+|**title**       |string             |   
+|**img**         |string             |   
+|**intro**       |string varchar(100)|
 
 Table 3: Reviews
 
-review_id PRIMARY KEY
-title string
-rating integer
-content string
-created_at time stamp
-modified_at time stamp
+|name            |  type             |
+|----------------|-------------------|
+|**review_id**   |PRIMARY KEY        |   
+|**title**       |string             |
+|**rating**      |integer            |   
+|**content**     |string             |   
+|**created_at**  |time stamp         |
+|**modified_at** |time stamp         |
+
 
 Table 4 User Reviews:
-ur_id PRIMARY KEY
-review_id FOREIGN KEY
-user_id FOREIGN KEY
-resource_id FOREIGN KEY
+
+|name            |  type             |
+|----------------|-------------------|
+|**ur_id**       |PRIMARY KEY        |   
+|**review_id**   |FOREIGN KEY        |
+|**user_id**     |FOREIGN KEY        |   
+|**resource_id** |FOREIGN KEY        |   
+
 
 ## Stretch Goals
 - Create new users
