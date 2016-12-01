@@ -66,6 +66,12 @@ html, body {
   background-color: white;
 }
 
+.btn-filter {
+  position: absolute;
+  top: -6px;
+  left: 31%;
+}
+
 .style-a {
   text-decoration: none;
   color: inherit;
