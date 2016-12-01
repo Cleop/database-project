@@ -34,14 +34,40 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      resources.getAll((error, result) => {
+      resources.getAll((error, resourcesRows) => {
         if(error) return reply(error).statusCode(400);
-        if(result.length === 0) {
+        if(resourcesRows.length === 0) {
+          return reply('No resources found');
+        }
+        getReviews((error, reviews) => {
+          if(error) console.log('error with getReviews endpoint', error);
+          reviews = buildReviewDescription(reviews);
+          reply.view('index', {
+            resources: resourcesRows,
+            isFiltered: false,
+            reviews: reviews
+          });
+        });
+
+      });
+    }
+  },
+  {
+    method: 'GET',
+    path: '/resources', // /resources?reviewed=true
+    handler: (req, reply) => {
+      if(!req.query.reviewed){
+        return reply.redirect('/');
+      }
+      resources.getAllReviewed((error, rows) => {
+        if(error) return reply(error).statusCode(400);
+        if(rows.length === 0) {
           return reply('No resources found');
         }
         reply.view('index', {
-          resources: result
-        });
+          resources: rows,
+           isFiltered: true
+         });
       });
     }
   },
@@ -60,17 +86,6 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/reviews/recent',
-    handler: (req, reply) => {
-      getReviews((error, reviews) => {
-        if (error) console.log('error with getReviews endpoint', error);
-        reviews = buildReviewDescription(reviews);
-        reply.view('index', {reviews:reviews});
-      });
-    },
-  },
-  {
-    method: 'GET',
     path: '/reviews',
     config: {
       auth: {
@@ -84,7 +99,7 @@ module.exports = [
             userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
             reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
           } else {
-            reply.view('user_reviews',{user_id: 'You must be login to see the content'});
+            reply.view('user_reviews', {user_id: 'You must be login to see the content'});
           }
         });
       }
