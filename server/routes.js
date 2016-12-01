@@ -38,10 +38,16 @@ module.exports = [
         if(result.length === 0) {
           return reply('No resources found');
         }
-        reply.view('index', {
-          resources: result,
-          isFiltered: false
+        getReviews((error, reviews) => {
+          if(error) console.log('error with getReviews endpoint', error);
+          reviews = buildReviewDescription(reviews);
+          reply.view('index', {
+            resources: result,
+            isFiltered: false,
+            reviews: reviews
+          });
         });
+
       });
     }
   },
@@ -77,7 +83,7 @@ module.exports = [
       });
     }
   },
-  {
+/*  {
     method: 'GET',
     path: '/reviews/recent',
     handler: (req, reply) => {
@@ -87,7 +93,7 @@ module.exports = [
         reply.view('index', {reviews:reviews});
       });
     },
-  },
+  },*/
   {
     method: 'GET',
     path: '/reviews',
