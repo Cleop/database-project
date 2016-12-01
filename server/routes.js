@@ -2,6 +2,7 @@ const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
 const getUserReviews = require('../user_reviews');
+const createNewReview = require('./database/queries/insert_new_review');
 
 module.exports = [
   {
@@ -73,8 +74,8 @@ module.exports = [
         }
         reply.view('index', {
           resources: rows,
-           isFiltered: true
-         });
+          isFiltered: true
+        });
       });
     }
   },
@@ -107,6 +108,26 @@ module.exports = [
     }
   },
   {
+    method:'POST',
+    path: '/reviews',
+    config: {
+      handler: (req, reply) => {
+        createNewReview(req.payload, (error,reviewContent) => {
+          if (error) console.log("Error submitting user's new review content", error);
+        });
+        console.log(req.payload);
+        reply.view('user_reviews');
+      }
+    }
+  },
+  {
+    method:'GET',
+    path: '/reviews/create',
+    handler: (req, reply) => {
+      reply.view('new-review-template');
+    }
+  },
+  {
     method:'GET',
     path: '/{file*}',
     handler: {
@@ -122,5 +143,5 @@ function buildReviewDescription(reviews){
 }
 
 function filterByUser(reviews, user_id){
-  return reviews.filter(function(review){return review.user_id === user_id})
+  return reviews.filter(function(review) {return review.user_id === user_id;});
 }
