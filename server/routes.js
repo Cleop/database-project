@@ -46,21 +46,6 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/resources',
-    handler: (req, reply) => {
-      if(req.query.reviewed){
-        resources.getAllReviewed((error, reviewed) => {
-          if (error) {return reply(error).statusCode(400)};
-          if(result.length === 0) {
-            return reply('No resources found');
-          }
-          reply.view('index', {reviewed: reviewed})
-        });
-      }
-    }
-  },
-  {
-    method: 'GET',
     path: '/resources/{id}',
     handler: (req, reply) => {
       resources.getById(req.params.id, (error, result) => {
@@ -92,14 +77,11 @@ module.exports = [
         strategy: 'base'
       },
       handler: (req, reply) => {
-          console.log("hello")
         getUserReviews((error, userReviews) => {
-          console.log(userReviews)
           if (error) console.log('error with getReviews endpoint', error);
           if (req.auth.isAuthenticated) {
             userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-            console.log(userReviews)
-            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, reviews:userReviews});
+            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
           } else {
             reply.view('user_reviews',{user_id: 'You must be login to see the content'});
           }
@@ -123,5 +105,5 @@ function buildReviewDescription(reviews){
 }
 
 function filterByUser(reviews, user_id){
-  return reviews.filter(function(review){if (review.user_id === user_id){return review}})
+  return reviews.filter(function(review){return review.user_id === user_id})
 }
