@@ -110,7 +110,7 @@ module.exports = [
     path: '/reviews',
     config: {
       handler: (req, reply) => {
-        createNewReview(req.payload, (error,reviewContent) => {
+        createNewReview.insertReviewContent(req.payload, (error,reviewContent) => {
           if (error) console.log("Error submitting user's new review content", error);
         })
         console.log(req.payload);

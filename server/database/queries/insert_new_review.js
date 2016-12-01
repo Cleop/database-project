@@ -1,5 +1,6 @@
 const db_conn = require('../db_connection')
-module.exports = (data, cb) => {
+
+const insertReviewContent = (data, cb) => {
   db_conn.query('INSERT INTO reviews (title, rating, content) \
   VALUES ($1, $2, $3);',
   [data.title, data.rating, data.content],
@@ -8,3 +9,7 @@ module.exports = (data, cb) => {
     return cb(null, result.rows);
   });
 };
+
+module.exports = {
+  insertReviewContent: insertReviewContent
+}
