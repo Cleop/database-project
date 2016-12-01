@@ -33,16 +33,16 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      resources.getAll((error, result) => {
+      resources.getAll((error, resourcesRows) => {
         if(error) return reply(error).statusCode(400);
-        if(result.length === 0) {
+        if(resourcesRows.length === 0) {
           return reply('No resources found');
         }
         getReviews((error, reviews) => {
           if(error) console.log('error with getReviews endpoint', error);
           reviews = buildReviewDescription(reviews);
           reply.view('index', {
-            resources: result,
+            resources: resourcesRows,
             isFiltered: false,
             reviews: reviews
           });
