@@ -4,8 +4,8 @@
 <img src={{this.img}} class="resource-small--image">
 <p class="resource-small--intro">{{this.intro}}</p>
 
-<form>
-  <button formaction="/reviews/create">Create a new review</button>
+<form action="/reviews/create" method="GET">
+  <button type="submit" name="resource_id" value="{{this.resource_id}}">Compose a new review</button>
 </form>
 
 <h3>Comments</h3>
