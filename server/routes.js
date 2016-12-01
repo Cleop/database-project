@@ -1,7 +1,7 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
-const getReviews = require('../reviews');
-const getUserReviews = require('../user_reviews');
+const getReviews = require('./database/queries/reviews');
+const getUserReviews = require('./database/queries/user_reviews');
 const createNewReview = require('./database/queries/insert_new_review');
 
 module.exports = [
