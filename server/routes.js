@@ -95,11 +95,11 @@ module.exports = [
     path: '/reviews',
     config: {
       handler: (req, reply) => {
-        createNewReview((error,reviewContent) => {
+        createNewReview(req.payload, (error,reviewContent) => {
           if (error) console.log("Error submitting user's new review content", error);
         })
-        return reviewContent;
-        reply.view('user_reviews',{user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews})
+        console.log(req.payload);
+        reply.view('user_reviews')
       }
     }
   },

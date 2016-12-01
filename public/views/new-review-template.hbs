@@ -2,9 +2,9 @@
 
 <p>Our users enable us to better one another's learning. Please be honest with your review in order for people to benefit from the most awesome resources!</p>
 
-<form action="/reviews">
+<form action="/reviews" method="POST">
   Review Title:<input type="text" name="title" placeholder="Amazing, Awful..." maxlength="60"><br>
-  Rating:<input type="number" name"rating" min="0" max="5"><br>
+  Rating:<input type="number" name="rating" min="0" max="5"><br>
   Content:<input type="text" name="content" maxlength="800"><br>
   <input type="submit" value="Submit">
 </form>
