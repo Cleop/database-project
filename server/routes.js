@@ -88,6 +88,7 @@ module.exports = [
         if(result.length === 0) {
           return reply('No resources found');
         }
+        console.log(result[0]);
         reply.view('resource-large', result[0]);
       });
     }
@@ -112,11 +113,13 @@ module.exports = [
     path: '/reviews',
     config: {
       handler: (req, reply) => {
-        createNewReview(req.payload, (error,reviewContent) => {
+        createNewReview.insertReviewContent(req.payload, (error,review_id) => {
           if (error) console.log("Error submitting user's new review content", error);
-        });
-        console.log(req.payload);
-        reply.view('user_reviews');
+          createNewReview.insertIdContent(review_id, req.auth.credentials.user_id, req.payload.resource_id, error =>{
+            if (error) {console.log("Error");}
+            reply.redirect('/reviews')
+          })
+        })
       }
     }
   },
@@ -124,7 +127,7 @@ module.exports = [
     method:'GET',
     path: '/reviews/create',
     handler: (req, reply) => {
-      reply.view('new-review-template');
+      reply.view('new-review-template', {resource_id: req.query.resource_id})
     }
   },
   {
