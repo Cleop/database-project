@@ -3,6 +3,8 @@ const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
 const getUserReviews = require('../user_reviews');
 const createNewReview = require('./database/queries/insert_new_review');
+const util = require('./util');
+
 
 module.exports = [
   {
@@ -18,9 +20,7 @@ module.exports = [
     config: {
       handler: (req, reply) => {
         login([req.payload.email, req.payload.password], (error, result) => {
-          if (error) {
-            return reply(error).statusCode(400);
-          }
+          if (error) return reply(error).statusCode(400);
           if (result.length === 0) {
             return reply('User not found.');
           }
@@ -42,46 +42,17 @@ module.exports = [
     method: 'GET',
     path: '/',
     handler: (req, reply) => {
-      resources.getAll((error, resourcesRows) => {
-        if(error) return reply(error).statusCode(400);
-        if(resourcesRows.length === 0) {
-          return reply('No resources found');
-        }
-        getReviews((error, reviews) => {
-          if(error) console.log('error with getReviews endpoint', error);
-          reviews = buildReviewDescription(reviews);
-          reply.view('index', {
-            resources: resourcesRows,
-            isFiltered: false,
-            reviews: reviews
-          });
-        });
-
-      });
+      reply.redirect('/resources');
     }
   },
   {
     method: 'GET',
     path: '/resources',
     handler: (req, reply) => {
-      if(!req.query.reviewed){
-        return reply.redirect('/');
+      if(req.query.reviewed){
+        return resources.getAllReviewed(util.fetchReviewsAndReply(req, reply, true));
       }
-      resources.getAllReviewed((error, rows) => {
-        if(error) return reply(error).statusCode(400);
-        if(rows.length === 0) {
-          return reply('No resources found');
-        }
-        getReviews((error, reviews) => {
-          if(error) console.log('error with getReviews endpoint', error);
-          reviews = buildReviewDescription(reviews);
-          reply.view('index', {
-            resources: rows,
-            isFiltered: false,
-            reviews: reviews
-          });
-        });
-      });
+      resources.getAll(util.fetchReviewsAndReply(req, reply, false));
     }
   },
   {
@@ -104,7 +75,7 @@ module.exports = [
       if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
       getUserReviews((error, userReviews) => {
         if(error) console.log('error with getReviews endpoint', error);
-        userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
+        userReviews = util.filterByUser(userReviews, req.auth.credentials.user_id);
         reply.view('user_reviews', {reviews:userReviews});
       });
     }
@@ -144,10 +115,3 @@ module.exports = [
   }
 ];
 
-function buildReviewDescription(reviews){
-  return reviews.slice(-3);
-}
-
-function filterByUser(reviews, user_id){
-  return reviews.filter(function(review) {return review.user_id === user_id;});
-}
