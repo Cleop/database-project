@@ -1,4 +1,4 @@
-const dbConn = require('./server/database/db_connection');
+const dbConn = require('../db_connection');
 
 module.exports = cb => {
   dbConn.query('SELECT reviews.*, user_reviews.resource_id\
