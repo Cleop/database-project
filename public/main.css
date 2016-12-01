@@ -9,6 +9,18 @@
 .navbar-link a {
   text-decoration: none;
 }
+.content_input{
+  width: 600px;
+  height: 300px;
+  vertical-align: text-top;
+  display: block;
+}
+.title{
+  display: block;
+}
+.rating {
+  display: block;
+}
 .container {
   max-width: 800px;
   width: 100%;
