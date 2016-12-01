@@ -1,4 +1,4 @@
-const getReviews = require('../reviews');
+const getReviews = require('./database/queries/reviews');
 
 let fetchReviewsAndReply = (req, reply, isFiltered) => {
   return (error, rows) => {
