@@ -88,7 +88,6 @@ module.exports = [
         if(result.length === 0) {
           return reply('No resources found');
         }
-        console.log(result[0]);
         reply.view('resource-large', result[0]);
       });
     }
@@ -98,13 +97,10 @@ module.exports = [
     path: '/reviews',
     handler: (req, reply) => {
       getUserReviews((error, userReviews) => {
-        if (error) console.log('error with getReviews endpoint', error);
-        if (req.auth.isAuthenticated) {
-          userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-          reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
-        } else {
-          reply.view('user_reviews', {user_id: 'You must be login to see the content'});
-        }
+        if(error) console.log('error with getReviews endpoint', error);
+        if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
+        userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
+        reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
       });
     }
   },
@@ -114,12 +110,12 @@ module.exports = [
     config: {
       handler: (req, reply) => {
         createNewReview.insertReviewContent(req.payload, (error,review_id) => {
-          if (error) console.log("Error submitting user's new review content", error);
-          createNewReview.insertIdContent(review_id, req.auth.credentials.user_id, req.payload.resource_id, error =>{
-            if (error) {console.log("Error");}
-            reply.redirect('/reviews')
-          })
-        })
+          if(error) console.log("Error submitting user's new review content", error);
+          createNewReview.insertIdContent(review_id, req.auth.credentials.user_id, req.payload.resource_id, error => {
+            if(error) { console.log('Error'); }
+            reply.redirect('/reviews');
+          });
+        });
       }
     }
   },
@@ -127,7 +123,8 @@ module.exports = [
     method:'GET',
     path: '/reviews/create',
     handler: (req, reply) => {
-      reply.view('new-review-template', {resource_id: req.query.resource_id})
+      if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
+      reply.view('new-review-template', {resource_id: req.query.resource_id});
     }
   },
   {
