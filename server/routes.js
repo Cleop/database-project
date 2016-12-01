@@ -1,7 +1,7 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
-const getUserReviews = require('../user_reviews')
+const getUserReviews = require('../user_reviews');
 
 module.exports = [
   {
@@ -39,8 +39,28 @@ module.exports = [
           return reply('No resources found');
         }
         reply.view('index', {
-          resources: result
+          resources: result,
+          isFiltered: false
         });
+      });
+    }
+  },
+  {
+    method: 'GET',
+    path: '/resources', // /resources?reviewed=true
+    handler: (req, reply) => {
+      if(!req.query.reviewed){
+        return reply.redirect('/');
+      }
+      resources.getAllReviewed((error, rows) => {
+        if(error) return reply(error).statusCode(400);
+        if(rows.length === 0) {
+          return reply('No resources found');
+        }
+        reply.view('index', {
+          resources: rows,
+           isFiltered: true
+         });
       });
     }
   },
@@ -83,7 +103,7 @@ module.exports = [
             userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
             reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
           } else {
-            reply.view('user_reviews',{user_id: 'You must be login to see the content'});
+            reply.view('user_reviews', {user_id: 'You must be login to see the content'});
           }
         });
       }
