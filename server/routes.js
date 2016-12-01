@@ -44,10 +44,10 @@ module.exports = [
           reply.view('index', {
             resources: result,
             isFiltered: false,
-            reviews:reviews
+            reviews: reviews
           });
         });
-        
+
       });
     }
   },
