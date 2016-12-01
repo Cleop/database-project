@@ -54,10 +54,19 @@
   max-width: 50px;
 }
 
+.btn {
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: white;
+}
+
 .style-a {
   text-decoration: none;
   color: inherit;
   opacity: 1;
+  transition: opacity;
 }
 
 .style-a:hover {
