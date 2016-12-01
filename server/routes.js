@@ -39,7 +39,8 @@ module.exports = [
           return reply('No resources found');
         }
         reply.view('index', {
-          resources: result
+          resources: result,
+          isFiltered: false
         });
       });
     }
@@ -56,31 +57,11 @@ module.exports = [
         if(rows.length === 0) {
           return reply('No resources found');
         }
-        reply.view('index', {resources: rows});
+        reply.view('index', {
+          resources: rows,
+           isFiltered: true
+         });
       });
-    }
-  },
-  {
-    method: 'GET',
-    path: '/api/resources',
-    handler: (req, reply) => {
-      if(!req.query.reviewed) {
-        return resources.getAll((error, result) => {
-          if(error) return reply(error).statusCode(400);
-          if(result.length === 0) {
-            return reply('No resources found');
-          }
-          reply({'resources': result});
-        });
-      } else {
-        resources.getAllReviewed((error, rows) => {
-          if(error) return reply(error).statusCode(400);
-          if(rows.length === 0) {
-            return reply('No resources found');
-          }
-          reply({'resources': rows});
-        });
-      }
     }
   },
   {
