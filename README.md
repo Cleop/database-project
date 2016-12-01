@@ -1,5 +1,15 @@
 # database-project
 
+## To View Our Site
+- Clone our repo
+- Do npm install in your terminal
+- Do run devStart, once the server is running...
+- Go to localhost:8000 on your browser
+
+To login try using:
+email: peter@fac.com || cleo@fac.com || tom@fac.com || ewelina@fac.com
+password: name123 (the name of the user)
+
 ## Objective
 
 Build a platform for writing and sharing reviews of coding resources.
@@ -19,12 +29,11 @@ Focus on getting this functionality rather than making the frontend look good. B
 ## Endpoints
 
 - I can log in.  (/login)
-- I can see a list of recent reviews. (/reviews/recent)
-- I can see a list of reviewed resources. (/resources/reviewed)
-- I can create, edit and view my own reviews. (/reviews?user_id)
-- I can see a list of reviews of a particular resource. (/reviews?resource_id)
-- I can click on a listed review to read it. (/reviews/{review_id})
-- (optional extra) I can see a list of reviews by a particular user.
+- I can see a list of recent reviews. (/reviews/recent on the landing page)
+- I can see a list of reviewed resources. (/resources?reviewed=true)
+- I can create, (edit) and view my own reviews. (/reviews)
+- I can see a list of reviews of a particular resource. (resources/{resource_id})
+- I can click on a listed review to read it. (/resources/{resource_id})
 
 ## Database
 

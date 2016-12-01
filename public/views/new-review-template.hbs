@@ -3,9 +3,9 @@
 <p>Our users enable us to better one another's learning. Please be honest with your review in order for people to benefit from the most awesome resources!</p>
 
 <form action="/reviews" method="POST">
-  Review Title:<input type="text" name="title" placeholder="Amazing, Awful..." maxlength="60"><br>
-  Rating:<input type="number" name="rating" min="0" max="5"><br>
-  Content:<input type="text" name="content" maxlength="800"><br>
+  Review Title:<input class="title" type="text" name="title" placeholder="Amazing, Awful..." maxlength="60"><br>
+  Rating:<input class="rating" type="number" name="rating" min="0" max="5"><br>
+  Content:<input class="content_input" type="text" name="content" maxlength="800"><br>
   <input type="submit" value="Submit">
   <input type="hidden" name="resource_id" value="{{resource_id}}">
 </form>
