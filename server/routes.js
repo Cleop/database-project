@@ -101,7 +101,7 @@ module.exports = [
           if (error) console.log('error with getReviews endpoint', error);
           if (req.auth.isAuthenticated) {
             userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, reviews:userReviews});
+            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
           } else {
             reply.view('user_reviews', {user_id: 'You must be login to see the content'});
           }
@@ -125,5 +125,5 @@ function buildReviewDescription(reviews){
 }
 
 function filterByUser(reviews, user_id){
-  return reviews.filter(function(review){if (review.user_id === user_id){return review}})
+  return reviews.filter(function(review){return review.user_id === user_id})
 }
