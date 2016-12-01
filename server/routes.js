@@ -48,16 +48,38 @@ module.exports = [
     method: 'GET',
     path: '/resources', // /resources?reviewed=true
     handler: (req, reply) => {
-      if(req.query.reviewed){
+      if(!req.query.reviewed){
+        return reply.redirect('/');
+      }
+      resources.getAllReviewed((error, rows) => {
+        if(error) return reply(error).statusCode(400);
+        if(rows.length === 0) {
+          return reply('No resources found');
+        }
+        reply.view('index', {resources: rows});
+      });
+    }
+  },
+  {
+    method: 'GET',
+    path: '/api/resources',
+    handler: (req, reply) => {
+      if(!req.query.reviewed) {
+        return resources.getAll((error, result) => {
+          if(error) return reply(error).statusCode(400);
+          if(result.length === 0) {
+            return reply('No resources found');
+          }
+          reply({'resources': result});
+        });
+      } else {
         resources.getAllReviewed((error, rows) => {
           if(error) return reply(error).statusCode(400);
           if(rows.length === 0) {
             return reply('No resources found');
           }
-          reply.view('index', {resources: rows});
+          reply({'resources': rows});
         });
-      } else {
-        reply.redirect('/');
       }
     }
   },
