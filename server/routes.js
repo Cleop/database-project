@@ -32,6 +32,14 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: '/logout',
+    handler: (req, reply) => {
+      req.cookieAuth.clear();
+      return reply.redirect('/');
+    }
+  },
+  {
+    method: 'GET',
     path: '/',
     handler: (req, reply) => {
       resources.getAll((error, resourcesRows) => {
@@ -66,8 +74,8 @@ module.exports = [
         }
         reply.view('index', {
           resources: rows,
-           isFiltered: true
-         });
+          isFiltered: true
+        });
       });
     }
   },
@@ -87,22 +95,16 @@ module.exports = [
   {
     method: 'GET',
     path: '/reviews',
-    config: {
-      auth: {
-        mode: 'optional',
-        strategy: 'base'
-      },
-      handler: (req, reply) => {
-        getUserReviews((error, userReviews) => {
-          if (error) console.log('error with getReviews endpoint', error);
-          if (req.auth.isAuthenticated) {
-            userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-            reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
-          } else {
-            reply.view('user_reviews', {user_id: 'You must be login to see the content'});
-          }
-        });
-      }
+    handler: (req, reply) => {
+      getUserReviews((error, userReviews) => {
+        if (error) console.log('error with getReviews endpoint', error);
+        if (req.auth.isAuthenticated) {
+          userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
+          reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
+        } else {
+          reply.view('user_reviews', {user_id: 'You must be login to see the content'});
+        }
+      });
     }
   },
   {
@@ -112,9 +114,9 @@ module.exports = [
       handler: (req, reply) => {
         createNewReview(req.payload, (error,reviewContent) => {
           if (error) console.log("Error submitting user's new review content", error);
-        })
+        });
         console.log(req.payload);
-        reply.view('user_reviews')
+        reply.view('user_reviews');
       }
     }
   },
@@ -122,7 +124,7 @@ module.exports = [
     method:'GET',
     path: '/reviews/create',
     handler: (req, reply) => {
-      reply.view('new-review-template')
+      reply.view('new-review-template');
     }
   },
   {
@@ -141,5 +143,5 @@ function buildReviewDescription(reviews){
 }
 
 function filterByUser(reviews, user_id){
-  return reviews.filter(function(review){return review.user_id === user_id})
+  return reviews.filter(function(review) {return review.user_id === user_id;});
 }
