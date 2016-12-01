@@ -10,9 +10,19 @@
   text-decoration: none;
 }
 .container {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   margin: auto;
+  position: relative;
+}
+.resources {
+  width: 60%;
+}
+.aside {
+  width: 30%;
+  position: absolute;
+  top: 25px;
+  right: 30px;
 }
 .input-block {
   display: block;
