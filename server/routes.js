@@ -115,9 +115,9 @@ module.exports = [
       handler: (req, reply) => {
         createNewReview.insertReviewContent(req.payload, (error,review_id) => {
           if (error) console.log("Error submitting user's new review content", error);
-          createNewReview.insertIdContent(review_id, 4, req.payload.resource_id, error =>{
+          createNewReview.insertIdContent(review_id, req.auth.credentials.user_id, req.payload.resource_id, error =>{
             if (error) {console.log("Error");}
-            reply.view('user_reviews')
+            reply.redirect('/reviews')
           })
         })
       }
