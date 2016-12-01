@@ -2,6 +2,7 @@ const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
 const getUserReviews = require('../user_reviews');
+const createNewReview = require('./database/queries/insert_new_review');
 
 module.exports = [
   {
@@ -83,17 +84,6 @@ module.exports = [
       });
     }
   },
-/*  {
-    method: 'GET',
-    path: '/reviews/recent',
-    handler: (req, reply) => {
-      getReviews((error, reviews) => {
-        if (error) console.log('error with getReviews endpoint', error);
-        reviews = buildReviewDescription(reviews);
-        reply.view('index', {reviews:reviews});
-      });
-    },
-  },*/
   {
     method: 'GET',
     path: '/reviews',
@@ -113,6 +103,26 @@ module.exports = [
           }
         });
       }
+    }
+  },
+  {
+    method:'POST',
+    path: '/reviews',
+    config: {
+      handler: (req, reply) => {
+        createNewReview(req.payload, (error,reviewContent) => {
+          if (error) console.log("Error submitting user's new review content", error);
+        })
+        console.log(req.payload);
+        reply.view('user_reviews')
+      }
+    }
+  },
+  {
+    method:'GET',
+    path: '/reviews/create',
+    handler: (req, reply) => {
+      reply.view('new-review-template')
     }
   },
   {
