@@ -2,6 +2,10 @@ html, body {
   font-family: 'Raleway', sans-serif;
 }
 
+ul {
+  padding-left: 0;
+}
+
 .header {
   width: 100%;
   position: relative;
@@ -69,6 +73,9 @@ html, body {
   width: 165px;
 }
 
+.style-link {
+  list-style-type: none;
+}
 .resource-small--image {
   max-width: 50px;
 }
@@ -87,6 +94,10 @@ html, body {
   left: 31%;
 }
 
+.divider {
+  padding: 10px;
+  border-bottom: 1px solid grey
+}
 .style-a {
   text-decoration: none;
   color: inherit;
