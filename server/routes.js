@@ -62,7 +62,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/resources', // /resources?reviewed=true
+    path: '/resources',
     handler: (req, reply) => {
       if(!req.query.reviewed){
         return reply.redirect('/');
@@ -72,9 +72,14 @@ module.exports = [
         if(rows.length === 0) {
           return reply('No resources found');
         }
-        reply.view('index', {
-          resources: rows,
-          isFiltered: true
+        getReviews((error, reviews) => {
+          if(error) console.log('error with getReviews endpoint', error);
+          reviews = buildReviewDescription(reviews);
+          reply.view('index', {
+            resources: rows,
+            isFiltered: false,
+            reviews: reviews
+          });
         });
       });
     }
@@ -96,11 +101,11 @@ module.exports = [
     method: 'GET',
     path: '/reviews',
     handler: (req, reply) => {
+      if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
       getUserReviews((error, userReviews) => {
         if(error) console.log('error with getReviews endpoint', error);
-        if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
         userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-        reply.view('user_reviews', {user_id: req.auth.credentials.user_id, user_name:req.auth.credentials.firstname, reviews:userReviews});
+        reply.view('user_reviews', {reviews:userReviews});
       });
     }
   },
@@ -109,6 +114,7 @@ module.exports = [
     path: '/reviews',
     config: {
       handler: (req, reply) => {
+        if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
         createNewReview.insertReviewContent(req.payload, (error,review_id) => {
           if(error) console.log("Error submitting user's new review content", error);
           createNewReview.insertIdContent(review_id, req.auth.credentials.user_id, req.payload.resource_id, error => {
