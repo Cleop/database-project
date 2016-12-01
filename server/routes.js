@@ -1,7 +1,7 @@
 const login = require('./database/queries/login');
 const resources = require('./database/queries/resources');
 const getReviews = require('../reviews');
-const getUserReviews = require('../user_reviews')
+const getUserReviews = require('../user_reviews');
 
 module.exports = [
   {
@@ -46,16 +46,18 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/resources',
+    path: '/resources', // /resources?reviewed=true
     handler: (req, reply) => {
       if(req.query.reviewed){
-        resources.getAllReviewed((error, reviewed) => {
-          if (error) {return reply(error).statusCode(400)};
-          if(result.length === 0) {
+        resources.getAllReviewed((error, rows) => {
+          if(error) return reply(error).statusCode(400);
+          if(rows.length === 0) {
             return reply('No resources found');
           }
-          reply.view('index', {reviewed: reviewed})
+          reply.view('index', {resources: rows});
         });
+      } else {
+        reply.redirect('/');
       }
     }
   },
@@ -92,16 +94,13 @@ module.exports = [
         strategy: 'base'
       },
       handler: (req, reply) => {
-          console.log("hello")
         getUserReviews((error, userReviews) => {
-          console.log(userReviews)
           if (error) console.log('error with getReviews endpoint', error);
           if (req.auth.isAuthenticated) {
             userReviews = filterByUser(userReviews, req.auth.credentials.user_id);
-            console.log(userReviews)
             reply.view('user_reviews', {user_id: req.auth.credentials.user_id, reviews:userReviews});
           } else {
-            reply.view('user_reviews',{user_id: 'You must be login to see the content'});
+            reply.view('user_reviews', {user_id: 'You must be login to see the content'});
           }
         });
       }
