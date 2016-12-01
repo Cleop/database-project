@@ -4,6 +4,7 @@ const vision = require('vision');
 const inert = require('inert');
 const routes = require('./routes');
 const cookieAuth = require('hapi-auth-cookie');
+const contextCredentials = require('hapi-context-credentials');
 
 const server = new hapi.Server();
 
@@ -16,10 +17,10 @@ server.connection({
   }
 });
 
-server.register([inert, vision, cookieAuth], err => {
+server.register([inert, vision, cookieAuth, contextCredentials], err => {
   if(err) console.log(err);
 
-  server.auth.strategy('base', 'cookie', {
+  server.auth.strategy('base', 'cookie', 'optional', {
     password: 'm!*"2/),p4:xDs%KEgVr7;e#85Ah^WYC',
     cookie: 'user',
     isSecure: false
