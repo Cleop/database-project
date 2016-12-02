@@ -78,6 +78,7 @@ ul {
 
 .style-link {
   list-style-type: none;
+  pointer: cursor;
 }
 .resource-small--image {
   max-width: 50px;
