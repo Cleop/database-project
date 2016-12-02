@@ -1,3 +1,4 @@
+const env = require('env2')(`${__dirname}/../.env`);
 const path = require('path');
 const hapi = require('hapi');
 const vision = require('vision');
