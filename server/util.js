@@ -1,4 +1,4 @@
-const getReviews = require('./database/queries/reviews');
+const reviews = require('./database/queries/reviews');
 
 let fetchReviewsAndReply = (req, reply, isFiltered) => {
   return (error, rows) => {
@@ -6,7 +6,7 @@ let fetchReviewsAndReply = (req, reply, isFiltered) => {
     if(rows.length === 0) {
       return reply('No resources found');
     }
-    getReviews((error, reviews) => {
+    reviews.getWithResourceId((error, reviews) => {
       if(error) return reply(error).statusCode(400);
       reply.view('index', {
         resources: rows,
