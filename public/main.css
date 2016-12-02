@@ -76,7 +76,7 @@ ul {
 
 .style-link {
   list-style-type: none;
-  pointer: cursor;
+  cursor: pointer;
 }
 .resource-small--image {
   max-width: 50px;
@@ -88,6 +88,13 @@ ul {
   border-radius: 5px;
   font-weight: bold;
   background-color: white;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity;
+}
+
+.btn:hover {
+  opacity: 0.5;
 }
 
 .btn-filter {
