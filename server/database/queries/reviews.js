@@ -1,9 +1,9 @@
 const db_conn = require('../db_connection');
 
 const getAll = cb => {
-  db_conn.query('SELECT user_reviews.user_id, reviews.review_id, user_reviews.resource_id, reviews.title, \
+  db_conn.query('SELECT ur.user_id, reviews.review_id, ur.resource_id, reviews.title, \
     reviews.rating, reviews.content, reviews.created_at \
-    FROM user_reviews \
+    FROM user_reviews AS ur\
     INNER JOIN reviews \
     ON user_reviews.review_id=reviews.review_id;',
     (error, data) => {
@@ -12,9 +12,9 @@ const getAll = cb => {
   );
 };
 const getAllByUserId = (user_id, cb) => {
-  db_conn.query('SELECT user_reviews.user_id, reviews.review_id, user_reviews.resource_id, reviews.title, \
+  db_conn.query('SELECT ur.user_id, reviews.review_id, ur.resource_id, reviews.title, \
     reviews.rating, reviews.content, reviews.created_at \
-    FROM user_reviews \
+    FROM user_reviews AS ur\
     INNER JOIN reviews \
     ON user_reviews.review_id=reviews.review_id \
     WHERE user_reviews.user_id = $1;',
@@ -43,7 +43,7 @@ const insert = (review, user_id, cb) => {
     INSERT INTO user_reviews (review_id, user_id, resource_id) \
     VALUES ((SELECT review_id FROM new_review), $4, $5);',
     [review.title, review.rating, review.content, user_id, review.resource_id],
-    error => { 
+    error => {
       return cb(error || null);
     }
   );
