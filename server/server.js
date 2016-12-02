@@ -1,3 +1,4 @@
+const env = require('env2')(`${__dirname}/../.env`);
 const path = require('path');
 const hapi = require('hapi');
 const vision = require('vision');
@@ -35,7 +36,7 @@ server.register([inert, vision, cookieAuth, contextCredentials], err => {
     helpersPath: 'helpers',
     partialsPath: 'partials',
     layout: 'default',
-    path: 'views',
+    path: '../views',
     isCached: false
   });
 

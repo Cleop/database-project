@@ -1,5 +1,6 @@
 const env =  require('env2');
 const fs = require('fs');
+const env = require('env2')(`${__dirname}/../../.env`);
 
 const dbConn = require('./db_connection');
 
