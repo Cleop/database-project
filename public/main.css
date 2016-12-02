@@ -117,6 +117,10 @@ ul {
   left: 31%;
 }
 
+.btn-go {
+  font-size: 13px;
+}
+
 .divider {
   padding: 10px;
   border-bottom: 1px solid grey

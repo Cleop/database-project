@@ -8,9 +8,9 @@
   <button class="btn" type="submit" name="resource_id" value="{{this.resource_id}}">Compose a new review</button>
 </form>
 
-<h3>Comments</h3>
+<h3 class="divider">Comments</h3>
 {{#each this.json_agg}}
-<div class="comment">
+<div class="comment divider">
   <h4>{{this.title}}</h4>
   <p>Rating: {{this.rating}}</p>
   <p>{{this.content}}</p>
