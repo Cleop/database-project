@@ -35,7 +35,7 @@ server.register([inert, vision, cookieAuth, contextCredentials], err => {
     helpersPath: 'helpers',
     partialsPath: 'partials',
     layout: 'default',
-    path: 'views',
+    path: '../views',
     isCached: false
   });
 
