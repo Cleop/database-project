@@ -5,7 +5,7 @@ const getAll = cb => {
     r.rating, r.content, r.created_at \
     FROM user_reviews AS ur\
     INNER JOIN reviews AS r \
-    ON user_reviews.review_id=reviews.review_id;',
+    ON ur.review_id=r.review_id;',
     (error, data) => {
       return (error ? cb(error) : cb(null, data.rows));
     }
@@ -16,8 +16,8 @@ const getAllByUserId = (user_id, cb) => {
     r.rating, r.content, r.created_at \
     FROM user_reviews AS ur\
     INNER JOIN reviews AS r\
-    ON user_reviews.review_id=reviews.review_id \
-    WHERE user_reviews.user_id = $1;',
+    ON ur.review_id=r.review_id \
+    WHERE ur.user_id = $1;',
     [user_id],
     (error, data) => {
       return (error ? cb(error) : cb(null, data.rows));
