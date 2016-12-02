@@ -6,10 +6,8 @@ module.exports = [
     method: 'GET',
     path: '/resources',
     handler: (req, reply) => {
-      if(req.query.reviewed){
-        return resources.getAllReviewed(util.fetchReviewsAndReply(req, reply, true));
-      }
-      resources.getAll(util.fetchReviewsAndReply(req, reply, false));
+      const onlyReviewed = (req.query.reviewed === 'true');
+      return resources.getAll(onlyReviewed, util.fetchReviewsAndReply(req, reply, onlyReviewed));
     }
   },
   {
