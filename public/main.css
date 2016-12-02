@@ -77,13 +77,19 @@ ul {
 .style-link {
   list-style-type: none;
   margin: 15px 0;
+}
+
+.link-hover {
   cursor: pointer;
   opacity: 1;
   transition: opacity;
 }
-
-.style-link:hover {
+.link-hover:hover {
   opacity: 0.5;
+}
+
+.resource-small--title {
+  cursor: pointer;
 }
 
 .resource-small--image {
