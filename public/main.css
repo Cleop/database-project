@@ -34,7 +34,7 @@ ul {
   margin-left: 10px;
 }
 
-.content_input{
+.content-input{
   width: 600px;
   height: 300px;
   vertical-align: text-top;
@@ -42,14 +42,8 @@ ul {
   padding-top: 0;
   padding-left: 0;
   line-height: 1em;
-}
-
-.title {
-  display: block;
-}
-
-.rating {
-  display: block;
+  border-radius: 5px;
+  border: 1px solid grey;
 }
 
 .container {
@@ -67,9 +61,13 @@ ul {
   top: 25px;
   right: 30px;
 }
+
 .input-block {
   display: block;
   margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid grey;
 }
 .center-button {
   text-align: center;
