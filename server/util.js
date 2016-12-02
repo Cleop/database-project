@@ -21,12 +21,7 @@ let getTopEight = function(reviews) {
   return reviews.slice(-8);
 };
 
-let filterByUser = function(reviews, user_id) {
-  return reviews.filter(function(review) {return review.user_id === user_id;});
-};
-
 module.exports = {
   fetchReviewsAndReply: fetchReviewsAndReply,
-  filterByUser: filterByUser,
   getTopEight: getTopEight
 };

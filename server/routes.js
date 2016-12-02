@@ -71,10 +71,9 @@ module.exports = [
     path: '/reviews',
     handler: (req, reply) => {
       if(!req.auth.isAuthenticated) { return reply('You must be logged in'); }
-      reviews.getAll((error, userReviews) => {
+      reviews.getAllByUserId(req.auth.credentials.user_id, (error, userReviews) => {
         if(error) return reply(error).statusCode(400);
-        userReviews = util.filterByUser(userReviews, req.auth.credentials.user_id);
-        reply.view('user_reviews', {reviews:userReviews});
+        reply.view('user_reviews', {reviews: userReviews});
       });
     }
   },
