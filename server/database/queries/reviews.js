@@ -1,10 +1,10 @@
 const db_conn = require('../db_connection');
 
 const getAll = cb => {
-  db_conn.query('SELECT user_reviews.user_id, reviews.review_id, user_reviews.resource_id, reviews.title, \
-    reviews.rating, reviews.content, reviews.created_at \
-    FROM user_reviews \
-    INNER JOIN reviews \
+  db_conn.query('SELECT ur.user_id, r.review_id, ur.resource_id, r.title, \
+    r.rating, r.content, r.created_at \
+    FROM user_reviews AS ur\
+    INNER JOIN reviews AS r \
     ON user_reviews.review_id=reviews.review_id;',
     (error, data) => {
       return (error ? cb(error) : cb(null, data.rows));
@@ -12,10 +12,10 @@ const getAll = cb => {
   );
 };
 const getAllByUserId = (user_id, cb) => {
-  db_conn.query('SELECT user_reviews.user_id, reviews.review_id, user_reviews.resource_id, reviews.title, \
-    reviews.rating, reviews.content, reviews.created_at \
-    FROM user_reviews \
-    INNER JOIN reviews \
+  db_conn.query('SELECT ur.user_id, r.review_id, ur.resource_id, r.title, \
+    r.rating, r.content, r.created_at \
+    FROM user_reviews AS ur\
+    INNER JOIN reviews AS r\
     ON user_reviews.review_id=reviews.review_id \
     WHERE user_reviews.user_id = $1;',
     [user_id],
@@ -43,7 +43,7 @@ const insert = (review, user_id, cb) => {
     INSERT INTO user_reviews (review_id, user_id, resource_id) \
     VALUES ((SELECT review_id FROM new_review), $4, $5);',
     [review.title, review.rating, review.content, user_id, review.resource_id],
-    error => { 
+    error => {
       return cb(error || null);
     }
   );
